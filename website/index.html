@@ -8,7 +8,7 @@
     <title>STEAM Makers Academy</title>
     <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="style.css">
-    
+
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,14 +21,88 @@
     <header>
         <nav class="nav-bar">
             <ul class="top-menu">
-                <li><a class="nav-option" href="#our-academy"></a></li>
-                <li><a class="nav-option" href="#courses"></a></li>
-                <li><a class="nav-option" href="#register"></a></li>
+                <li><a class="nav-option" href="#our-academy">Academy</a></li>
+                <li><a class="nav-option" href="#courses">Available courses</a></li>
+                <li><a class="nav-option" href="#register">Register now</a></li>
             </ul>
         </nav>
-
-        
     </header>
 
+    <main>
+        <section class="academy" id="our-academy">
+            <h1> STEAM Makers Robotics Academy</h1>
+            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Placeat nostrum asperiores a rem facilis amet
+                iusto error temporibus iure, atque in eius, commodi eos dolorem consequatur. Pariatur eum optio eveniet.
+            </p>
+        </section>
+
+        <section class="courses" id="courses">
+            <h1> Available courses</h1>
+            <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Delectus quas repellendus fugiat ipsam, quos
+                illo perspiciatis maiores saepe necessitatibus voluptates nisi quaerat fugit, quod voluptate possimus
+                minus excepturi? Distinctio, quas!</p>
+        </section>
+
+        <section class="registration" id="register">
+            <h1>Register now and start learning!</h1>
+
+            <form id="registrationForm">
+                <label for="student-name">Student full name:</label>
+                <input type="text" id="student-name" class="input" required>
+
+                <label for="parent-name">Parent full name:</label>
+                <input type="text" id="parent-name" class="input" required>
+
+                <label for="email">email</label>
+                <input type="email" id="email" class="input" required placeholder="email@domain.com">
+                
+                <label for="course">Select the course you want to register</label>
+                <select name="course-options" id="options" class="input" required>
+                    <option value="option1">Intro robotics</option>
+                    <option value="option2">Intermediate robotics</option>
+                    <option value="option3">Advanced robotics</option>
+                </select>
+
+                <label for="message">Leave your questions here</label>
+                <textarea id="additional-info" cols="70" rows="10" class="input" required></textarea>
+
+                <input type="submit" value="Submit registration form" class="send">
+            </form>
+
+        </section>
+    </main>
+
+    <script>
+        document.getElementById("registrationForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const formData = {
+                studentName: document.getElementById("student-name").value,
+                parentName: document.getElementById("parent-name").value,
+                email: document.getElementById("email").value,
+                course: document.getElementById("options").value,
+            };
+
+            try {
+                const response = await fetch("YOUR_API_GATEWAY_ENDPOINT_URL", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (response.ok) {
+                    alert("Registration successful!");
+                } else {
+                    alert("Registration failed. Please try again.");
+                }
+            } catch (error) {
+                alert("Error submitting the form: " + error);
+            }
+        });
+    </script>
+
 </body>
+
 </html>
