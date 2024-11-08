@@ -66,42 +66,43 @@
                 <label for="message">Leave your questions here</label>
                 <textarea id="additional-info" cols="70" rows="10" class="input" required></textarea>
 
-                <input type="submit" value="Submit registration form" class="send">
+                <button id="submit" onclick="apiCall();">Submit form</button>
             </form>
 
         </section>
     </main>
 
     <script>
-        document.getElementById("registrationForm").addEventListener("submit", async function(event) {
-            event.preventDefault();
+        async function apiCall() {
 
-            const formData = {
-                studentName: document.getElementById("student-name").value,
-                parentName: document.getElementById("parent-name").value,
-                email: document.getElementById("email").value,
-                course: document.getElementById("options").value,
+            const apiEndpoint = 'API_ENPOINT';
+
+            const data = {
+                student_name: document.getElementById('student-name').value,
+                parent_name: document.getElementById('parent-name').value,
+                email: document.getElementById('email').value,
+                course_name: document.getElementById('options').value,
+                additional_info: document.getElementById('additional-info').value
             };
 
-            try {
-                const response = await fetch("YOUR_API_GATEWAY_ENDPOINT_URL", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(formData)
-                });
 
-                if (response.ok) {
-                    alert("Registration successful!");
-                } else {
-                    alert("Registration failed. Please try again.");
+            const response = await fetch(apiEndpoint, {
+               method: "POST",
+               headers: {
+                   "Content-Type": "application/json"
+               },
+               body: JSON.stringify(data) 
+            });
+            if (response.ok) {
+                alert("Form submitted successfully");
+            } else{
+                alert("There was an error submitting the form");
                 }
-            } catch (error) {
-                alert("Error submitting the form: " + error);
-            }
-        });
+        }   
+
     </script>
+
+    
 
 </body>
 
