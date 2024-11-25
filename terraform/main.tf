@@ -5,18 +5,18 @@ terraform {
       version = "~> 5.0"
     }
   }
-
   required_version = ">= 1.2.0"
 }
+
 
 provider "aws" {
   region = var.region
 }
 
+
 # S3 bucket to store static website files
 resource "aws_s3_bucket" "static-website" {
   bucket = "steam-robotics-academy"
-  tags   = var.tags
 }
 
 
@@ -37,8 +37,6 @@ resource "aws_cloudfront_distribution" "cloudfront_distribution" {
   is_ipv6_enabled = true
   price_class = "PriceClass_100"
   #http_version = "http2"
-  
-
 
   default_cache_behavior {
     allowed_methods = ["GET", "HEAD"]
@@ -138,7 +136,6 @@ resource "aws_lambda_function" "save_user_data" {
     runtime = "python3.9"
     role = aws_iam_role.lambda_excecution.arn
     filename = "lambda/save_user_data.zip"
-  
 }
 
 
