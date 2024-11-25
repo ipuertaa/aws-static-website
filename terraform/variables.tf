@@ -11,12 +11,12 @@ variable "region" {
 }
 
 
-variable "tags" {
-  description = "Tags to assign to resources"
-  type        = map(string)
-  default = {
-    owner       = "isabel"
-    application = "static-website"
-  }
-}
+# variable "tags" {
+#   description = "Tags to assign to resources"
+#   type        = map(string)
+#   default = {
+#     owner       = "isabel"
+#     application = "static-website"
+#   }
+# }
 

@@ -1,3 +1,4 @@
+# providers.tf
 terraform {
   required_providers {
     aws = {
@@ -9,14 +10,58 @@ terraform {
 }
 
 
+# External module for tagging resources
+module "tags-module-external_3_38" {
+  source = "git::https://github.com/ipuertaa/aws-tagging.git"
+  owner = "isabel-admin-test"
+  application = "serverless-website-test"
+  environment = "testing-tags"
+
+  #optional tags
+  optional_tags = {
+    lifecycle = "yes",
+    expires = "never",
+    price_class = "free"
+
+  }
+
+}
+
+
+
 provider "aws" {
   region = var.region
+  default_tags {
+    tags = module.tags-module-external_3_38.required_tags
+  }
+
 }
+
+# # Module for provider and tagging resources
+# module "tags" {
+#   source = "./tags-module"
+#   owner = "isabel-admin-test"
+#   application = "steam-serverless-website"
+#   environment = "test"
+
+#   #optional tags
+#   optional_tags = {
+#     "lifecycle" = "yes"
+#   }
+  
+# }
+
+
 
 
 # S3 bucket to store static website files
 resource "aws_s3_bucket" "static-website" {
   bucket = "steam-robotics-academy"
+
+  #extra tags --> add a new tag just to the bucket
+  tags = {
+    type = "frontend"
+  }
 }
 
 
