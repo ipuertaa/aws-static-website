@@ -31,12 +31,6 @@
 
 output "required_tags" {
     description = "Required Tags for AWS Resources"
-    # value = {
-    #     Owner = var.owner
-    #     Application = var.application
-    #     Environment = var.environment
-    #     ManagedBy = var.managedBy
-    # }
 
     value = merge(var.optional_tags,
     {
@@ -44,6 +38,8 @@ output "required_tags" {
         Application = var.application
         Environment = var.environment
         ManagedBy = var.managedBy
+        ttl = var.ttl
+        expiration = var.expiration
     }
     )
 }

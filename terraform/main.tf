@@ -10,39 +10,69 @@ terraform {
 }
 
 
-# External module for tagging resources
-module "tags-module-external_3_38" {
-  source = "git::https://github.com/ipuertaa/aws-tagging.git"
-  owner = "isabel-admin-test"
-  application = "serverless-website-test"
-  environment = "testing-tags"
+# # External module for tagging resources
+# module "standard_tags" {
+#   source = "git::https://github.com/ipuertaa/aws-tagging.git"
+  
+#   owner = "isabel-admin-test"
+#   application = "serverless-website-test"
+#   environment = "testing-tags"
+#   expiration = "never"
 
-  #optional tags
-  optional_tags = {
-    lifecycle = "yes",
-    expires = "never",
-    price_class = "free"
+#   #optional tags
+#   optional_tags = {
+#     price_class = "free", 
+#     module = "demo-module"
 
-  }
+#   }
 
+# }
+
+# test commit tags
+module "tag_value1" {
+  source = "git::https://github.com/ipuertaa/mono-repo-test.git?ref=tag-value1"
+  
+}
+
+module "tag_value2" {
+  source = "git::https://github.com/ipuertaa/mono-repo-test.git?ref=tag-value2"
+  
+}
+
+module "moduleA" {
+  source = "git::https://github.com/ipuertaa/mono-repo-test.git//moduleA?ref=moduleA/v1.0.0"
+  
+}
+
+module "moduleB" {
+  source = "git::https://github.com/ipuertaa/mono-repo-test.git//moduleB?ref=moduleB/v1.0.0"
+  
 }
 
 
 
 provider "aws" {
   region = var.region
+
   default_tags {
-    tags = module.tags-module-external_3_38.required_tags
+    tags = {
+      tag-v1 = module.tag_value1.tag-value
+      tag-v2 = module.tag_value2.tag-value
+      moduleA = module.moduleA.tag
+      moduleB = module.moduleB.tag
+
+    }
   }
 
 }
 
-# # Module for provider and tagging resources
+# Module for provider and tagging resources
 # module "tags" {
 #   source = "./tags-module"
 #   owner = "isabel-admin-test"
 #   application = "steam-serverless-website"
 #   environment = "test"
+#   ttl = 3600
 
 #   #optional tags
 #   optional_tags = {
@@ -52,15 +82,14 @@ provider "aws" {
 # }
 
 
-
-
 # S3 bucket to store static website files
 resource "aws_s3_bucket" "static-website" {
   bucket = "steam-robotics-academy"
 
-  #extra tags --> add a new tag just to the bucket
+  #extra tags --> add a new tag just to the bucket / rewriting default tags to specific resources
   tags = {
-    type = "frontend"
+    type = "frontend",
+    owner = "re-write test"
   }
 }
 

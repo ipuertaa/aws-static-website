@@ -53,6 +53,20 @@ variable "environment" {
   type        = string
 }
 
+variable "ttl" {
+  description = "Time to live for the resources"
+  type        = number
+  default = null
+  
+}
+
+variable "expiration" {
+  description = "Expiration date for the resources"
+  type = string
+  default = null
+}
+
+
 variable "optional_tags" {
   description = "Required Tags for AWS Resources"
   type        = map(string)
